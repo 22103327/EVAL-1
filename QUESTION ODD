@@ -1,0 +1,78 @@
+// CODE FOR EVAL-1 (ODD MACHINE)
+
+
+
+class MovieRentalService:
+    def __init__(self):
+        self.movies = {
+            "Movie1": {"title": "Lucifer", "genre": "Drama", "available": True},
+            "Movie2": {"title": "The Avengers", "genre": "Crime", "available": True},
+            "Movie3": {"title": "The Dark Knight", "genre": "Action", "available": True},
+            "Movie4": {"title": "YOU", "genre": "Drama", "available": True},
+            "Movie5": {"title":"Infinity war", "genre": "Drama", "available": True},
+        }
+        self.customers = {}
+        self.rentals = {}
+
+    def add_customer(self, customer_id, name, email):
+        
+        self.customers[customer_id] = {"name": name, "email": email, "rentals": []}
+
+    def rent_movie(self, customer_id, movie_id):
+      
+        if customer_id in self.customers and movie_id in self.movies:
+            if self.movies[movie_id]["available"]:
+                self.movies[movie_id]["available"] = False
+                self.customers[customer_id]["rentals"].append(movie_id)
+                self.rentals[movie_id] = customer_id
+                print(f"Movie '{self.movies[movie_id]['title']}' rented to {self.customers[customer_id]['name']}.")
+            else:
+                print(f"Movie '{self.movies[movie_id]['title']}' is not available for rent.")
+        else:
+            print("Invalid customer or movie ID.")
+
+    def return_movie(self, movie_id):
+        
+        if movie_id in self.rentals:
+            customer_id = self.rentals[movie_id]
+            self.movies[movie_id]["available"] = True
+            self.customers[customer_id]["rentals"].remove(movie_id)
+            del self.rentals[movie_id]
+            print(f"Movie '{self.movies[movie_id]['title']}' returned by {self.customers[customer_id]['name']}.")
+        else:
+            print(f"Movie '{self.movies[movie_id]['title']}' is not rented.")
+
+    def generate_rental_report(self):
+       print("Rental Report:")
+        for movie_id, customer_id in self.rentals.items():
+            print(f"Movie: {self.movies[movie_id]['title']}, Rented by: {self.customers[customer_id]['name']}")
+
+
+
+rental_service = MovieRentalService()
+
+rental_service.add_customer("C1", "kartik", "kartik@example.com")
+rental_service.add_customer("C2", "ansh", "ansh@example.com")
+
+rental_service.rent_movie("C1", "Movie1")
+rental_service.rent_movie("C2", "Movie2")
+
+rental_service.generate_rental_report()
+
+rental_service.return_movie("Movie1")
+
+rental_service.generate_rental_report()
+
+
+
+        
+        
+        
+        
+        
+        
+        
+    
+        
+            
+        
